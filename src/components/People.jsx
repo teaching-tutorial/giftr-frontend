@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useToken } from '../context/TokenContext';
+import useToken from '../context/TokenContext';
 import Logout  from './Logout';
 import CheckToken from '../auth/CheckToken';
 import usePeople from '../hooks/usePeople';
@@ -9,8 +9,8 @@ const People = () => {
  return (
     <main>
       <h2>People List</h2>
-      <Logout />
-      <CheckToken />
+      {/* <Logout /> */}
+      {/* <CheckToken /> */}
       {!isLoading && !error && 
      ( <ul>
         {people?.map(({name}) => (

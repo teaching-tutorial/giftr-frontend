@@ -1,69 +1,79 @@
-import { useNavigate, useSearchParams } from "react-router-dom";
-import { useEffect } from "react";
-import { useToken } from "../context/TokenContext";
+import { Link, Route, Routes } from "react-router-dom";
+import { GoogleLogin } from "@react-oauth/google";
+import { googleLogout, useGoogleLogin } from "@react-oauth/google";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import useToken from "../context/TokenContext";
 
-function Login() {
-  const navigate = useNavigate();
-  const [searchParams, setSearchParams] = useSearchParams();
-  const { token, setToken } = useToken();
+const Login = () => {
+  const { setToken } = useToken();
+  const responseMessage = (response) => {
+    console.log(response);
+  };
+  const errorMessage = (error) => {
+    console.log(error);
+  };
+  const [user, setUser] = useState([]);
+  const [profile, setProfile] = useState([]);
 
-  useEffect(() => {
-    //check for token in querystring
-    const urlToken = searchParams.get("token");
-    console.log(urlToken);
-    if (urlToken) {
-      setToken(urlToken); //put the token in state and sessionStorage
-      navigate("/people"); //now send the user
-    }
-    //check if token already exists in context
-    if (token) {
-      navigate("/people");
-    }
-  }, []);
+  
 
-  function doLogin() {
-    //user clicked the login button
-    const redirect = `http://localhost:5173/`;
-    const baseURL = `https://render.xyz/api/auth/google?redirect_url=${redirect}`;
-    //location.href = baseURL;
-    alert("We are pretending to go to " + baseURL);
-    alert("Google will send us back to " + redirect);
-    location.href = redirect + "?token=" + crypto.randomUUID();
-  }
+  // const googleLogin = useGoogleLogin({
+  //   onSuccess: (codeResponse) => setUser(codeResponse),
+  //   onError: (error) => console.log("Login Failed:", error),
+  // });
+
+  // useEffect(() => {
+  //   if (user) {
+  //     console.log("user retrurn from google login", user);
+  //     setToken(user.access_token);
+  //     axios
+  //       .get(
+  //         `https://www.googleapis.com/oauth2/v1/userinfo?access_token=${user.access_token}`,
+  //         {
+  //           headers: {
+  //             Authorization: `Bearer ${user.access_token}`,
+  //             Accept: "application/json",
+  //           },
+  //         }
+  //       )
+  //       .then((res) => {
+  //         console.log("user data: ", res.data);
+  //         setProfile(res.data);
+  //       })
+  //       .catch((err) => console.log(err));
+  //   }
+  // }, [user]);
+
+  // log out function to log the user out of google and set the profile array to null
+  const logOut = () => {
+    googleLogout();
+    setProfile(null);
+  };
 
   return (
     <div>
-      <button onClick={doLogin}>Login</button>
+      <header>
+        <h1>Giftr App</h1>
+        {profile ? (
+          <div>
+            <img src={profile.picture} alt="user image" />
+            <h3>User Logged in</h3>
+            <p>Name: {profile.name}</p>
+            <p>Email Address: {profile.email}</p>
+            <br />
+            <br />
+            <Link to="/people">
+              <button>People List</button>
+            </Link>
+            <button onClick={logOut}>Log out</button>
+          </div>
+        ) : (
+          <button onClick={googleLogin}>Sign in with Google 🚀 </button>
+        )}
+      </header>
     </div>
   );
-}
+};
 
 export default Login;
-
-/*
-
-/ - Login <login>
-/people - <People>
-
-/people/add/ <PersonForm />
-/people/:id/ <PersonForm />
-/people/edit/:id/ <PersonForm />
-
-/people/form/ <PersonForm /> 
-usePerson 
-{
-  _id: "dfdgdhjghjk",
-  name: "John Smith",
-  dob: 1245645433
-}
-
-/people/:pid/gifts/
-/:pid/gifts/
-/gifts/:pid/
-//for the gifts component
-
-2 repo for the project steve's and tim's
-netlify for react
-render for api
-
-*/
