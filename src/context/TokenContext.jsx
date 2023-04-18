@@ -1,27 +1,37 @@
 import { useContext, createContext, useState, useEffect } from "react";
 
 const TokenContext = createContext();
+const tokenKey = "giftr_access_token";
 
-function TokenProvider(props) {
-  const [token, setToken] = useState(null);
-  const tokenKey = "my-token-key-blah-blah-blah";
+export const TokenProvider = ({ children }) => {
+  const setToken = (token) => {
+    if (token === null) {
+      sessionStorage.removeItem(tokenKey);
+    }
+    sessionStorage.setItem(tokenKey, token);
+  };
 
-  useEffect(() => {
-    //TODO: actually add the sessionStorage code
-    //check in sessionStorage
-    //for an existing value
-    //handle removeItem if token is null
-  }, [token]);
+  const removeToken = () => {
+    setToken(null);
+    sessionStorage.removeItem(tokenKey);
+  };
 
-  const value = { token, setToken };
+  console.log("token get from session", sessionStorage.getItem(tokenKey));
+  const value = {
+    token: sessionStorage.getItem(tokenKey),
+    setToken,
+    removeToken,
+  };
 
-  return <TokenContext.Provider value={value} {...props} />;
-}
+  return (
+    <TokenContext.Provider value={value}>{children}</TokenContext.Provider>
+  );
+};
 
-function useToken() {
+const useToken = () => {
   const context = useContext(TokenContext);
   if (!context) throw new Error("No Token Context");
   return context;
-}
+};
 
-export { TokenProvider, useToken };
+export default useToken;

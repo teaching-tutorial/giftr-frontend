@@ -1,9 +1,10 @@
 import { useState } from "react";
-import { useToken } from "../context/TokenContext";
+import useToken from "../context/TokenContext";
 import { useQuery } from "react-query";
 
 const usePeople = () => {
   const { token } = useToken();
+  console.log("usePeople token: ", token);
   const {
     data: people,
     error,
@@ -18,10 +19,11 @@ const fetchPeople = async (token) => {
   const url = `http://localhost:3001/api/person`;
   const request = new Request(url, {
     method: "GET",
-    // headers: { Authorization: `Bearer ${token}` },
+    headers: { Authorization: `Bearer ${token}` },
   });
   const response = await fetch(request);
-  const people = await response.json();
+  const json = await response.json();
+  const { data: people } = json;
   console.log(people);
   return people;
   // return response.json().map(({ data }) => data);

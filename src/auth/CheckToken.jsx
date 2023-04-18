@@ -1,4 +1,4 @@
-import { useToken } from "../context/TokenContext";
+import useToken from "../context/TokenContext";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
