@@ -16,7 +16,7 @@ const usePeople = () => {
 
 const fetchPeople = async (token) => {
   //TODO move url to config
-  const url = `http://localhost:3001/api/person`;
+  const url = `http://localhost:3001/api/people`;
   const request = new Request(url, {
     method: "GET",
     headers: { Authorization: `Bearer ${token}` },
