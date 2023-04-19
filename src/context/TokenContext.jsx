@@ -4,7 +4,9 @@ const TokenContext = createContext();
 const tokenKey = "giftr_access_token";
 
 export const TokenProvider = ({ children }) => {
-  const setToken = (token) => {
+  const [token, setToken] = useState();
+  const saveToken = (token) => {
+    setToken(token);
     if (token === null) {
       sessionStorage.removeItem(tokenKey);
     }
@@ -12,14 +14,20 @@ export const TokenProvider = ({ children }) => {
   };
 
   const removeToken = () => {
-    setToken(null);
+    saveToken(null);
     sessionStorage.removeItem(tokenKey);
   };
 
+  useEffect(() => {
+    if (!token) {
+      setToken(sessionStorage.getItem(tokenKey));
+    }
+  }, [token]);
+
   console.log("token get from session", sessionStorage.getItem(tokenKey));
   const value = {
-    token: sessionStorage.getItem(tokenKey),
-    setToken,
+    token,
+    saveToken,
     removeToken,
   };
 
