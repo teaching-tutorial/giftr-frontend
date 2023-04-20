@@ -2,6 +2,12 @@ import { Link, Route, Routes } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import useToken from "../context/TokenContext";
+import AppBar from '@mui/material/AppBar';
+import Toolbar from '@mui/material/Toolbar';
+import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+
 
 const authApiUrl = "http://localhost:3001/";
 const loginUrl = `${authApiUrl}auth/google?redirect_uri=${window.location.href}login/savetoken`;
@@ -26,9 +32,18 @@ const Login = () => {
 
   return (
     <div>
+      <Box sx={{ flexGrow: 1 }}>
+      <AppBar position="static">
+        <Toolbar>
+          
+          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+            Giftr
+          </Typography>
+        </Toolbar>
+      </AppBar>
+    </Box>
       <header>
-        <h1>Giftr App</h1>
-        {!token && <Link to={loginUrl}>Sign in with Google 🚀 </Link> }
+        {!token && <div className="loginButton"><Link to={loginUrl}> <Button classname="loginBtn">Sign in with Google 🚀 </Button> </Link></div> }
         {token && (
            <div>
             {/* <img src={profile.picture} alt="user image" />
@@ -37,6 +52,7 @@ const Login = () => {
             <p>Email Address: {profile.email}</p>
             <br />
             <br /> */}
+
             <Link to="/people">
               <button>People List</button>
             </Link>
