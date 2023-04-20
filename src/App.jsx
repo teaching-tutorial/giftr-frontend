@@ -10,7 +10,6 @@ const App = () => {
       <Route path="/" exact element={<Login />} />
       <Route path="/people" element={<People />} />
       <Route path="/login/savetoken" element={<LoginSaveToken />} />
-      <Route path="/edit/people/:id" element={<EditPeople />} />
     </Routes>
   );
 };
