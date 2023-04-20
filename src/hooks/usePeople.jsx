@@ -1,15 +1,15 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import useToken from "../context/TokenContext";
 import { useQuery } from "react-query";
 
-const usePeople = () => {
+const usePeople = (editPeople, addPeople) => {
   const { token } = useToken();
   console.log("usePeople token: ", token);
   const {
     data: people,
     error,
     isLoading,
-  } = useQuery("people", () => fetchPeople(token));
+  } = useQuery(["people", editPeople, addPeople],() => fetchPeople(token));
 
   return { people, error, isLoading };
 };
