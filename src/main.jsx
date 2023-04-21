@@ -12,8 +12,8 @@ import People from "./components/People";
 const queryClient = new QueryClient();
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <GoogleOAuthProvider clientId="457188597101-qflpifqkdtorfnmh03qmha2k6i1tr3ks.apps.googleusercontent.com">
-  {/* <GoogleOAuthProvider clientId="528616220795-k8ujuq42k5c1q3is6r0jj3fu7hkum6lr.apps.googleusercontent.com"> */}
+  /*<GoogleOAuthProvider clientId="457188597101-qflpifqkdtorfnmh03qmha2k6i1tr3ks.apps.googleusercontent.com"> */
+  <GoogleOAuthProvider clientId="528616220795-k8ujuq42k5c1q3is6r0jj3fu7hkum6lr.apps.googleusercontent.com">
 
     <React.StrictMode>
       <QueryClientProvider client={queryClient}>
