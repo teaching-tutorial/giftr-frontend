@@ -7,39 +7,31 @@ import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import AddBoxIcon from "@mui/icons-material/AddBox";
-import { useNavigate, Link } from "react-router-dom";
-import useToken from "../context/TokenContext";
+import { Link } from "react-router-dom";
 
-export default function Header({ setAddPeople }) {
-  const navigate = useNavigate();
-  const { removeToken } = useToken();
-
-  function doLogout() {
-    removeToken();
-    //navigate to the login route
-    navigate("/");
-  }
+export default function HeaderGift({ setAddGift }) {
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
         <Toolbar>
-          <IconButton
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="menu"
-            sx={{ mr: 2 }}
-            onClick={doLogout}
-          >
-            <ExitToAppIcon />
-          </IconButton>
+          <Link to="/people">
+            <IconButton
+              size="large"
+              edge="start"
+              color="inherit"
+              aria-label="menu"
+              sx={{ mr: 2 }}
+            >
+              <ExitToAppIcon />
+            </IconButton>
+          </Link>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             Giftr
           </Typography>
           <Button
             className="addPerson"
             color="inherit"
-            onClick={() => setAddPeople(true)}
+            onClick={() => setAddGift(true)}
           >
             <AddBoxIcon />
           </Button>
